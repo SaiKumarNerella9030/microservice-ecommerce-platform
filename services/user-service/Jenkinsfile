@@ -35,7 +35,7 @@ pipeline {
 
     stage('Deploy to Kubernetes') {
       steps {
-        sh 'kubectl apply -f manifests/base/namespace-dev.yaml'
+        sh 'kubectl apply -f manifests/base/namespace.yaml'
         sh 'kubectl apply -f manifests/base/user-service/'
       }
     }
