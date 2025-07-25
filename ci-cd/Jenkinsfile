@@ -1,0 +1,30 @@
+pipeline {
+  agent any
+  environment {
+    IMAGE = "saikumarnerella90/user-service:v1"
+  }
+  stages {
+    stage('Build') {
+      steps {
+        dir('services/user-service') {
+          sh 'docker build -t $IMAGE .'
+        }
+      }
+    }
+    stage('Push') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+          sh 'echo $PASS | docker login -u $USER --password-stdin'
+          sh 'docker push $IMAGE'
+        }
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh 'kubectl apply -f manifests/base/namespace.yaml'
+        sh 'kubectl apply -f manifests/base/user-service/'
+      }
+    }
+  }
+}
+

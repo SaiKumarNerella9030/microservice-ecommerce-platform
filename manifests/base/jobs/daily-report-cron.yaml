@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: daily-report
+  namespace: dev
+spec:
+  schedule: "0 1 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: reporter
+            image: busybox
+            command: ["sh", "-c", "echo generating report..."]
+          restartPolicy: OnFailure
+
