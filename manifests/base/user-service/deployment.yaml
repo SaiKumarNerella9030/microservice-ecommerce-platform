@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: saikumarnerella90/user-service:v1
+          image: saikumarnerella90/user-service
           ports:
             - containerPort: 3000
           envFrom:
